@@ -35,12 +35,44 @@ class StarfieldTunnel(ShowBase):
         # Choose the fog mode
         fog.setLinearRange(1, 20)
         fog.setExpDensity(0.02)
+        # Base frequency: 220Hz (A3) with playRate 1.0
+        self.base_freq = 880.0
 
+        # 26-note scale frequencies in Hz (calculated from the cent values)
+        self.scale_frequencies = [
+            220.00,    # [0] C - playRate 1.0 = 220Hz
+            233.52,    # [1] C♯⁻
+            247.66,    # [2] D♭⁺
+            262.48,    # [3] D⁻
+            278.03,    # [4] E♭⁺⁺
+            294.36,    # [5] E♭⁺
+            311.54,    # [6] E⁻⁻
+            329.63,    # [7] E⁻
+            348.74,    # [8] F⁻
+            368.94,    # [9] F⁺
+            390.31,    # [10] F♯⁻
+            412.93,    # [11] G♭⁺⁺
+            436.89,    # [12] G♭⁺
+            462.28,    # [13] G
+            489.19,    # [14] G♯⁻
+            517.74,    # [15] A♭⁺
+            548.02,    # [16] A⁻
+            580.16,    # [17] A⁺
+            614.28,    # [18] B♭⁻⁻
+            650.51,    # [19] B♭⁻
+            688.99,    # [20] B♭⁺
+            729.88,    # [21] B⁻
+            773.34,    # [22] B
+            819.54,    # [23] C♭⁺⁺
+            868.67,    # [24] C⁻
+            919.93,    # [25] C♯⁺
+            973.53     # [26] C (octave) - playRate ~2.0 = 440Hz
+        ]
         # Attach fog to the render tree
         self.render.setFog(fog)
         
         # Sound parameters
-        self.sound_trigger_distance = 50
+        self.sound_trigger_distance = 5
         self.sound_cooldown = 0  # seconds between sounds for same cell
         
         # Optional: Match fog color to background color for smooth fade
@@ -297,8 +329,33 @@ class StarfieldTunnel(ShowBase):
         
         # Store the sound reference in the cell data so it persists
         try:
-            self.audio3d.playSfx('circle', node, True)
-            print(f"Playing circle for cell {cell_key}...")
+            # Map character to scale index (0-25)
+            char_to_note = {
+                'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6,
+                'h': 7, 'i': 8, 'j': 9, 'k': 10, 'l': 11, 'm': 12,
+                'n': 13, 'o': 14, 'p': 15, 'q': 16, 'r': 17, 's': 18,
+                't': 19, 'u': 20, 'v': 21, 'w': 22, 'x': 23, 'y': 24, 'z': 25
+            }
+            
+            # Default to note 0 if character not found
+            note_index = char_to_note.get(char, 0)
+            
+            # Calculate pitch based on character
+            pitch = self.scale_frequencies[note_index] / self.base_freq
+            print(f"Character '{char}' -> note {note_index} -> pitch {pitch:.4f}")
+            if char in ['a','i','u','e','o']:
+                self.audio3d.playSfx('triangle', node, True, pitch*2)
+                if cell_data['is_red']:    
+                    self.audio3d.playSfx('square', node, True, pitch*6)
+                else:
+                    self.audio3d.playSfx('circle', node, True, pitch*4)
+            else:
+                if cell_data['is_red']:    
+                    self.audio3d.playSfx('noise', node, False, pitch*2)
+                else:
+                    self.audio3d.playSfx('click', node, True, pitch*4)
+            print(f"Playing circle for cell {cell_key} with char '{char}'...")
+            
         except Exception as e:
             print(f"Error playing sound for cell {cell_key}: {e}")
     
