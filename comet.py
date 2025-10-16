@@ -36,7 +36,7 @@ class StarfieldTunnel(ShowBase):
         fog.setLinearRange(1, 20)
         fog.setExpDensity(0.02)
         # Base frequency: 220Hz (A3) with playRate 1.0
-        self.base_freq = 880.0
+        self.base_freq = 110.0
 
         # 26-note scale frequencies in Hz (calculated from the cent values)
         self.scale_frequencies = [
@@ -118,7 +118,7 @@ class StarfieldTunnel(ShowBase):
         self.audio3d = Audio3d(self.sfxManagerList, self.camera)
         # Initialize tunnel
         #self.initialize_tunnel()
-        self.audio3d.setAudioRange(100.0)  # Increase range
+        self.audio3d.setAudioRange(50.0)  # Increase range
         # Enable motion blur
         self.mb = MotionBlur()
         
@@ -343,17 +343,23 @@ class StarfieldTunnel(ShowBase):
             # Calculate pitch based on character
             pitch = self.scale_frequencies[note_index] / self.base_freq
             print(f"Character '{char}' -> note {note_index} -> pitch {pitch:.4f}")
-            if char in ['a','i','u','e','o']:
-                self.audio3d.playSfx('triangle', node, True, pitch*2)
-                if cell_data['is_red']:    
-                    self.audio3d.playSfx('square', node, True, pitch*6)
-                else:
-                    self.audio3d.playSfx('circle', node, True, pitch*4)
+            if char in ['a','i','u','e','o','m','n','l','r','c','s','z']:
+                self.audio3d.playSfx(char, node, True, pitch*2)
             else:
-                if cell_data['is_red']:    
-                    self.audio3d.playSfx('noise', node, False, pitch*2)
-                else:
-                    self.audio3d.playSfx('click', node, True, pitch*4)
+                self.audio3d.playSfx('circle', node, True, pitch/2)
+                
+            
+            
+            #self.audio3d.playSfx('noise', node, False, cell_data['flicker_speed'])
+            
+            #self.audio3d.playSfx('click', node, False, cell_data['pulse_speed'])
+                
+            #if cell_data['is_red']:    
+            #    self.audio3d.playSfx('noise', node, False, pitch)
+            #else:
+                #self.audio3d.playSfx('circle', node, False, pitch)
+                    
+            #self.audio3d.playSfx('triangle', node, True, pitch*2)
             print(f"Playing circle for cell {cell_key} with char '{char}'...")
             
         except Exception as e:
@@ -474,7 +480,7 @@ class StarfieldTunnel(ShowBase):
         
         # Define visible range around camera
         visible_range_ahead = 30  # How far ahead to generate cells
-        visible_range_behind = 10  # How far behind to keep cells
+        visible_range_behind = 30  # How far behind to keep cells
         
         # Remove cells that are too far behind camera
         for cell_key, cell_data in list(self.cells.items()):

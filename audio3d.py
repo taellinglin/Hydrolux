@@ -9,19 +9,55 @@ class Audio3d():
         # Load multiple instances of each sound for layering
         self.sfx3d = {
             'circle': [
-                self.audio3d.loadSfx('tones/Circle.wav') for _ in range(10)  # 10 instances for layering
+                self.audio3d.loadSfx('tones/Circle.wav') for _ in range(25)  # 10 instances for layering
             ],
             'square': [
-                self.audio3d.loadSfx('tones/Square.wav') for _ in range(10)
+                self.audio3d.loadSfx('tones/Square.wav') for _ in range(25)
             ],
             'triangle': [
-                self.audio3d.loadSfx('tones/Triangle.wav') for _ in range(10)
+                self.audio3d.loadSfx('tones/Triangle.wav') for _ in range(25)
             ],
             'noise': [
-                self.audio3d.loadSfx('tones/Noise.wav') for _ in range(10)
+                self.audio3d.loadSfx('tones/Noise.wav') for _ in range(25)
             ],
             'click': [
-                self.audio3d.loadSfx('tones/Click.wav') for _ in range(10)
+                self.audio3d.loadSfx('tones/Click.wav') for _ in range(25)
+            ],
+            'a': [
+                self.audio3d.loadSfx('tones/vowel_ - a.wav') for _ in range(25)
+            ],
+            'c': [
+                self.audio3d.loadSfx('tones/vowel_ - c.wav') for _ in range(25)
+            ],
+            'e': [
+                self.audio3d.loadSfx('tones/vowel_ - e.wav') for _ in range(25)
+            ],
+            'i': [
+                self.audio3d.loadSfx('tones/vowel_ - i.wav') for _ in range(25)
+            ],
+            'l': [
+                self.audio3d.loadSfx('tones/vowel_ - l.wav') for _ in range(25)
+            ],
+            'm': [
+                self.audio3d.loadSfx('tones/vowel_ - m.wav') for _ in range(25)
+            ],
+            'n': [
+                self.audio3d.loadSfx('tones/vowel_ - n.wav') for _ in range(25)
+            ],
+            'o': [
+                self.audio3d.loadSfx('tones/vowel_ - o.wav') for _ in range(25)
+            ],
+            'r': [
+                self.audio3d.loadSfx('tones/vowel_ - r.wav') for _ in range(25)
+            ],
+            's': [
+                self.audio3d.loadSfx('tones/vowel_ - s.wav') for _ in range(25)
+            ],
+            'u': [
+                self.audio3d.loadSfx('tones/vowel_ - u.wav') for _ in range(25)
+            ],
+            'z': [
+                self.audio3d.loadSfx('tones/vowel_ - z.wav') for _ in range(25)
             ],
         }
         
@@ -31,13 +67,29 @@ class Audio3d():
             'square': self.sfx3d['square'][:],
             'triangle': self.sfx3d['triangle'][:],
             'noise': self.sfx3d['noise'][:],
-            'click': self.sfx3d['click'][:]
+            'click': self.sfx3d['click'][:],
+            'a': self.sfx3d['a'][:],
+            'c': self.sfx3d['c'][:],
+            'e': self.sfx3d['e'][:],
+            'i': self.sfx3d['i'][:],
+            'l': self.sfx3d['l'][:],
+            'm': self.sfx3d['m'][:],
+            'n': self.sfx3d['n'][:],
+            'o': self.sfx3d['o'][:],
+            'r': self.sfx3d['r'][:],
+            's': self.sfx3d['s'][:],
+            'z': self.sfx3d['z'][:],
+            'u': self.sfx3d['u'][:],
+            
+            
+            
+            
         }
         
-        self.audio3d.setDistanceFactor(50)
-        self.audio3d.setDopplerFactor(300)
+        self.audio3d.setDistanceFactor(1)
+        self.audio3d.setDopplerFactor(1)
         self.playing_loops = []
-        self.audio_range = 10.0
+        self.audio_range = 1.0
         self.active_sounds = {}  # key: (obj, sound_type) to handle multiple same-type sounds on same object
         self.camera_node = cam
         print(f"Audio3D Manager initialized with range: {self.audio_range}")
@@ -56,7 +108,7 @@ class Audio3d():
             print(f"Setting up {sfx} sound for object at {obj.getPos()}")
             
             sfx3d.setLoop(loop)
-            sfx3d.setVolume(1.0)  # Reduced volume for better layering
+            sfx3d.setVolume(10.0)  # Reduced volume for better layering
             sfx3d.setPlayRate(pitch)
             print(f"Playing Note: {pitch}")
             
