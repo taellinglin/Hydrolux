@@ -1,9 +1,13 @@
 # 水光素 (Shuǐguāng Sù)
 - **定义:** 由“Hydro”（水）和“Lux”（光）组成的混合词。
 
-# Hydrolux
+# 水光 | Hydrolux
 - **Def:** A portmanteau of "Hydro" (water) and "Lux" (light).
-
+## 安装 | Install
+```python
+pip install -r requirements.txt
+./start_lumen.bat
+```
 ## 虚拟物质档案 | Virtual Substance Catalog
 
 ### 系统名称 | Systematic Name
