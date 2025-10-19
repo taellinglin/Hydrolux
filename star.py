@@ -37,7 +37,7 @@ class StarfieldTunnel(ShowBase):
         # Attach fog to the render tree
         self.render.setFog(fog)
         # Load music file (supports WAV, OGG, MP3)
-        self.bgm = self.loader.loadMusic("bgm.wav")
+        self.bgm = self.loader.loadMusic("bgm.ogg")
         
         # Set to loop
         self.bgm.setLoop(True)
