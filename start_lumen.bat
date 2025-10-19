@@ -19,5 +19,5 @@ if %errorlevel% equ 1 (
     call python ocean.py
 ) else if %errorlevel% equ 4 (
     echo Starting Cool Tune...
-    call python ocean.py
+    call python mountain.py
 )
